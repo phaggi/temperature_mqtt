@@ -1,0 +1,116 @@
+[
+    {
+        "id": "db1ffd06.d9c38",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "4a0f3a2e.a2de64",
+        "type": "mysql",
+        "z": "db1ffd06.d9c38",
+        "mydb": "537aa0fa.f0588",
+        "name": "test",
+        "x": 730,
+        "y": 220,
+        "wires": [
+            [
+                "c08dfa2.7346e08"
+            ]
+        ]
+    },
+    {
+        "id": "c08dfa2.7346e08",
+        "type": "debug",
+        "z": "db1ffd06.d9c38",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 730,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "fdce681c.60fde8",
+        "type": "python-function",
+        "z": "db1ffd06.d9c38",
+        "name": "",
+        "func": "import sys\nsensor = msg['topic']\nsql_command = 'INSERT INTO temperature(sensor' + str(sensor) + ') VALUES (\\\"' + str(msg['payload']) + '\\\")'\nmsg.update({'topic': sql_command})\nreturn msg",
+        "outputs": 1,
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "4a0f3a2e.a2de64"
+            ]
+        ]
+    },
+    {
+        "id": "af88c0ab.81d12",
+        "type": "mqtt in",
+        "z": "db1ffd06.d9c38",
+        "name": "temperature_test_01",
+        "topic": "sensor/temperature",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6893249d.801b7c",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "5b84a607.aa59b8"
+            ]
+        ]
+    },
+    {
+        "id": "5b84a607.aa59b8",
+        "type": "python-function",
+        "z": "db1ffd06.d9c38",
+        "name": "sensor01",
+        "func": "import sys\nmsg.update({'topic': '01'})\nreturn msg",
+        "outputs": 1,
+        "x": 340,
+        "y": 60,
+        "wires": [
+            [
+                "fdce681c.60fde8"
+            ]
+        ]
+    },
+    {
+        "id": "537aa0fa.f0588",
+        "type": "MySQLdatabase",
+        "z": "",
+        "host": "192.168.88.222",
+        "port": "3307",
+        "db": "phaggi",
+        "tz": ""
+    },
+    {
+        "id": "6893249d.801b7c",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT_xpenology",
+        "broker": "192.168.88.222",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
